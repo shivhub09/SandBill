@@ -2,9 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
-import authRouter from './routes/auth.routes.js';
-import billRouter from './routes/bill.routes.js';
-import dashboardRouter from './routes/dashboard.routes.js';
+import userRouter from './routes/user.routes.js'; // Use import instead of require
 
 dotenv.config();
 
@@ -23,9 +21,8 @@ app.use(express.static("public"));
 
 app.use(cookieParser());
 
-// API routes
-app.use("/api/auth", authRouter);        // Login, Register, Logout
-app.use("/api/bills", billRouter);       // Bill creation, listing, details
-app.use("/api/dashboard", dashboardRouter); // Overview statistics, charts
+app.use("/api/v1/user", userRouter); // Use user routes
+
+// Overview statistics, charts
 
 export default app;

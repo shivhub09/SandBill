@@ -12,4 +12,4 @@ const asyncHandler = (fn) => async (req, res, next) => {
   }
 };
 
-module.exports = asyncHandler;
+export default asyncHandler;

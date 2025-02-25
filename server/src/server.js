@@ -1,36 +1,31 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import app from './app.js';
+import dotenv from 'dotenv';
 
-const app = express();
-app.get('/',(req,res) => {
-  res.send('Server is ready');
-});
+dotenv.config();
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`server at http://localhost:${port}`);
-});
-// dotenv.config();
+const PORT = process.env.PORT || 8080;
 
-// const app = express();
+mongoose.set('debug', true); // Enable Mongoose debugging
 
-// // Middleware
-// app.use(cors());
-// app.use(express.json());
+(async () => {
+  try {
+    console.log("Attempting to connect to MongoDB...");
+    const connection = await mongoose.connect(process.env.DATABASE_URL, {
+    });
 
-// // Connect to MongoDB
-// mongoose.connect(process.env.MONGODB_URI)
-//   .then(() => console.log('Connected to MongoDB'))
-//   .catch((err) => console.error('MongoDB connection error:', err));
+    console.log(
+      "MongoDB connection established and the host is : ",
+      connection.connection.host
+    );
 
-// // Basic route
-// app.get('/', (req, res) => {
-//   res.json({ message: 'Welcome to SandBill API' });
-// });
-
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// }); '
+    app.listen(PORT, () => {
+      console.log(
+        `Express app is connected to SAND ONE & listening on port ${PORT}`
+      );
+    });
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error.message);
+    process.exit(1);
+  }
+})();

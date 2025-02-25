@@ -1,9 +1,9 @@
-const cloudinary = require("cloudinary");
+import cloudinary from "cloudinary";
 require("dotenv").config();
 
 const { v2 } = cloudinary;
 
-const fs = require("fs");
+import { unlinkSync } from "fs";
 
 v2.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -20,13 +20,13 @@ const uploadOnCloudinary = async (localFilePath) => {
 
     // console.log(response);
 
-    fs.unlinkSync(localFilePath);
+    unlinkSync(localFilePath);
 
     return response;
   } catch (error) {
-    fs.unlinkSync(localFilePath);
+    unlinkSync(localFilePath);
     return null;
   }
 };
 
-module.exports = uploadOnCloudinary;
+export default uploadOnCloudinary;
